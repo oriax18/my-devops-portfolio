@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "oriax_portfolio_rg" {
 # 2. The storage account that will host the HTML/CSS files
 resource "azurerm_storage_account" "oriax_portfolio_storage" {
   # This name has to be globally unique
-  name                     = "oriaxprodportfoliosite" # My unique name
+  name                     = "oriax18portfolio" # My unique name
   resource_group_name      = azurerm_resource_group.oriax_portfolio_rg.name
   location                 = azurerm_resource_group.oriax_portfolio_rg.location
   account_tier             = "Standard"
