@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oriax Code - Rohit's DevOps Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SVG Icons for the background -->
+    <div class="bg-pattern">
+        <!-- This is a subtle dot grid pattern -->
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="dot-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                    <circle cx="1" cy="1" r="1" fill="#2a3b5a"></circle>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dot-grid)"></rect>
+        </svg>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">ORIAX /<span>/ CODE</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container reveal">
+            <span class="hero-intro">Hi, my name is Rohit.</span>
+            <h1 class="hero-title">I Build & Automate Cloud Infrastructure.</h1>
+            <p class="hero-subtitle">
+                Welcome to <strong>Oriax Code</strong>, my professional brand and portfolio.
+                I am a DevOps engineer focused on building efficient, scalable, and
+                fully automated systems.
+            </p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- About / Philosophy Section -->
+        <section id="about" class="about-section reveal">
+            <h2>My Philosophy</h2>
+            <p>
+                I believe in the "Infrastructure as Code" (IaC) methodology. Clicks in a web portal don't scale, and they aren't repeatable. Code is.
+            </p>
+            <p>
+                This entire website is a live demonstration of that. It's not just a page; it's a
+                fully automated <strong>CI/CD pipeline</strong>. When I push a change to the GitHub repository,
+                a <strong>GitHub Actions</strong> workflow triggers, runs my <strong>Terraform</strong> code to validate
+                the infrastructure, and securely deploys the new static files to <strong>Azure Blob Storage</strong>.
+                No manual intervention required.
+            </p>
+        </section>
+
+        <!-- Core Skills Section -->
+        <section id="skills" class="skills-section reveal">
+            <h2>Core Technologies</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">Terraform</div>
+                <div class="skill-tag">Azure</div>
+                <div class="skill-tag">GitHub Actions</div>
+                <div class="skill-tag">Docker</div>
+                <div class="skill-tag">Kubernetes</div>
+                <div class="skill-tag">Ansible</div>
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">Bash</div>
+                <div class="skill-tag">AWS (Learning)</div>
+                <div class="skill-tag">GCP (Learning)</div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects-section reveal">
+            <h2>Live Portfolio Projects</h2>
+            <div class="project-grid">
+                
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z" /><path d="M19.3 10.7C19 9.1 18 8 16.5 7.1C15.2 6.4 13.6 6 12 6s-3.2.4-4.5 1.1C6 8 5 9.1 4.7 10.7C3 10.9 2 12.3 2 14c0 1.7 1.3 3 3 3h14c1.7 0 3-1.3 3-3c0-1.7-1-3.1-2.7-3.3Z" /></svg>
+                        <h3>P1: Automated Static Site</h3>
+                    </div>
+                    <p>This very website. A full CI/CD pipeline using GitHub Actions to deploy to Azure Storage, with all infrastructure defined in Terraform.</p>
+                    <!-- TODO: Update 'oriax18' and 'YOUR-REPO' -->
+                    <a href="https://github.com/oriax18/my-devops-portfolio/tree/main/azure/project-1-static-site" class="project-link" target="_blank">View Code</a>
+                </div>
+                
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><line x1="3" x2="21" y1="9" y2="9" /><line x1="9" x2="9" y1="21" y2="9" /></svg>
+                        <h3>P2: VM Web Application</h3>
+                    </div>
+                    <p>A Linux (Ubuntu) Virtual Machine running Nginx, fully provisioned with Terraform. Includes VNet, Subnet, NSG (Firewall), and Public IP.</p>
+                    <!-- TODO: Update 'oriax18' and 'YOUR-REPO' -->
+                    <a href="https://github.com/oriax18/my-devops-portfolio/tree/main/azure/project-2-vm-webapp" class="project-link" target="_blank">View Code</a>
+                </div>oriax18
+
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <svg class="project-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3" /><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5" /></svg>
+                        <h3>P3: Cloud SQL Database</h3>
+                    </div>
+                    <p>A secure Azure SQL Database, managed by a logical server. All firewall rules and resources are defined in Terraform.</p>
+                    <!-- TODO: Update 'oriax18' and 'YOUR-REPO' -->
+                    <a href="https://github.com/oriax18/my-devops-portfolio/tree/main/azure/project-3-database" class="project-link" target="_blank">View Code</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="contact" class="footer">
+        <div class="container reveal">
+            <h2>Let's Connect</h2>
+            <p>Interested in my work or have a question? Find me on GitHub or LinkedIn.</p>
+            <div class="social-links">
+                <!-- TODO: Update 'oriax18' -->
+                <a href="https://github.com/oriax18" target="_blank" class="social-link">GitHub</a>
+                <a href="#" target="_blank" class="social-link">LinkedIn</a>
+            </div>
+            <div class="copyright">
+                © 2025 Oriax Code. Designed & Built by Rohit.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Scroll Effect -->
+    <script>
+        // Simple, lightweight fade-in-on-scroll
+        function revealSections() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150; // How much of the element to show before it fades in
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                } else {
+                    // Optional: remove to keep animation from repeating
+                    // reveals[i].classList.remove('active');
+                }
+            }
+        }
+
+        // Run on load and on scroll
+        window.addEventListener('scroll', revealSections);
+        revealSections(); // Run once on load to show visible elements
+    </script>
+</body>
+</html>

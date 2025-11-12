@@ -1,0 +1,59 @@
+name: P1 - Deploy Azure Static Website
+
+# This pipeline runs when you push to the "main" branch
+on:
+  push:
+    branches: [ "main" ]
+    # We only run it if files changed in this project's folder
+    paths:
+      - 'azure/project-1-static-site/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    # Set the working directory to our project
+    defaults:
+      run:
+        working-directory: ./azure/project-1-static-site/terraform
+
+    steps:
+    # 1. Checks out your code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Logs into Azure using your "robot" secret
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # 3. Installs Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    # 4. Terraform Init (connects to your state file)
+    - name: Terraform Init
+      run: terraform init
+
+    # 5. Terraform Apply (Builds the infrastructure)
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+
+    # 6. Get the Storage Account Name
+    - name: Get Storage Account Name
+      id: tf-outputs
+      run: |
+        echo "storage_name=$(terraform output -raw storage_account_name)" >> $GITHUB_OUTPUT
+    
+    # 7. Upload Website Files to the $web container
+    - name: Upload website files
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az storage blob upload-batch \
+            --account-name ${{ steps.tf-outputs.outputs.storage_name }} \
+            --source "azure/project-1-static-site/src" \
+            --destination '$web' \
+            --overwrite \
+            --auth-mode login
