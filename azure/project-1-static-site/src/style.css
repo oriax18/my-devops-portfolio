@@ -1,18 +1,5 @@
-/* --- CSS Variables (The "Theme") --- */
-:root {
-    --bg-color: #0a192f;
-    --bg-color-light: #112240; /* Lighter blue for gradient */
-    --card-color: #112240;
-    --text-color: #c8d6f3;
-    --heading-color: #e6f1ff;
-    --accent-color: #64ffda;
-    --accent-color-dim: #64ffda1a;
-    --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --icon-bg-color: #1a2b4a; /* Faint icon color */
-}
-
-/* --- Global Styles --- */
-* {
+/* --- Base reset & global stuff --- */
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -20,147 +7,280 @@
 
 html {
     scroll-behavior: smooth;
+    background-color: #0f172a; /* Solid background for browsers that don't load the BG */
 }
 
 body {
-    font-family: var(--system-font);
-    line-height: 1.6;
-    color: var(--text-color);
-    
-    /* This creates the new "layered" background */
-    background-color: var(--bg-color);
-    background-image: radial-gradient(
-        circle at 50% 0%,
-        var(--bg-color-light) 0%,
-        var(--bg-color) 60%
-    );
-}
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-h1, h2, h3 {
-    color: var(--heading-color);
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
-
-p {
-    margin-bottom: 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #cbd5e1; /* Light grey text, easy to read on dark bg */
+    line-height: 1.7;
+    overflow-x: hidden; /* Prevents horizontal scroll from the blobs */
+    position: relative;
 }
 
 a {
-    color: var(--accent-color);
+    color: #38bdf8; /* Bright blue for links */
     text-decoration: none;
+    transition: color 0.3s ease;
 }
+
 a:hover {
-    text-decoration: underline;
+    color: #7dd3fc;
 }
 
-/* --- Navigation Bar --- */
-.navbar {
-    background-color: var(--nav-color);
-    padding: 1rem 0;
-    position: sticky;
+p {
+    margin-bottom: 1rem;
+    color: #94a3b8; /* Lighter grey for body text */
+}
+
+/* --- The cool aurora background magic --- */
+.background-aurora {
+    position: fixed; /* Stays in place */
     top: 0;
-    z-index: 10;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #112240;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* Sits behind *everything* */
+    overflow: hidden;
 }
 
-.navbar .container {
+.blob {
+    position: absolute;
+    border-radius: 60%;
+    opacity: 0.4;
+    filter: blur(94px); /* This is what makes it 'blurry' */
+    mix-blend-mode: screen;
+}
+
+.blob-1 {
+    width: 390px;
+    height: 390px;
+    background: #37e683b5; 
+    top: 10vh;
+    left: 10vw;
+    animation: spin 30s linear infinite alternate;
+}
+
+.blob-2 {
+    width: 290px;
+    height: 290px;
+    background: #979c9c; /* Cyan/Teal */
+    bottom: 20vh;
+    right: 15vw;
+    animation: spin 25s linear infinite alternate-reverse;
+}
+
+/* Makes the blobs slowly move and rotate */
+@keyframes spin {
+    from { transform: rotate(0deg) scale(1); }
+    to   { transform: rotate(360deg) scale(1.2); }
+}
+
+/* --- Fixed Glass Navbar --- */
+.navbar-glass {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%); /* Centering trick */
+    width: 95%;
+    max-width: 900px;
+    z-index: 1000; /* Sits on top of all page content */
+
+    /* This is the secret sauce for the glass look */
+    background: rgba(17, 25, 40, 0.7); /* Dark, translucent background */
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(5px) saturate(250%);
+    
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 0 1.5rem;
+}
+
+.navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 60px;
 }
 
-.navbar .logo {
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: var(--accent-color);
-}
-.navbar .logo span {
-    color: var(--heading-color);
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f8fafc;
 }
 
-.navbar .nav-links {
+.logo span {
+    color: #38bdf8; /* Highlight "Code" */
+}
+
+.nav-links {
     display: flex;
-    list-style: none;
+    gap: 1.5rem;
 }
 
-.navbar .nav-links li {
-    margin-left: 2rem;
-}
-
-.navbar .nav-links a {
+.nav-links a {
     font-size: 0.9rem;
-    color: var(--text-color);
-    transition: color 0.3s ease;
-}
-.navbar .nav-links a:hover {
-    color: var(--accent-color);
-    text-decoration: none;
+    font-weight: 500;
+    color: #94a3b8;
 }
 
-/* --- Hero Section (with new DevOps Icon Background) --- */
-.hero {
-    min-height: 70vh;
+.nav-links a:hover {
+    color: #fff;
+}
+
+/* --- Page Content & Glass Panels --- */
+.page-content {
+    position: relative;
+    z-index: 10; /* Sits on top of the background, but behind the navbar */
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6rem 1rem 2rem 1rem;
+    display: grid;
+    gap: 2rem; /* Nice spacing between panels */
+}
+
+.glass-panel {
+    /* The glass style for all content sections */
+    background: rgba(17, 25, 40, 0.75); /* A bit darker than the navbar for contrast */
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Fade-in-on-scroll Animation --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Panel Content: Hero --- */
+.hero-panel {
+    padding-top: 4rem; /* More space at the top */
+    text-align: center;
+}
+
+.hero-panel .hero-intro {
+    display: block;
+    font-size: 1.5rem;
+    color: #38bdf8;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.hero-panel h1 {
+    font-size: 3rem;
+    color: #f8fafc;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-panel .hero-subtitle {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+}
+
+/* --- Panel Content: General --- */
+.section-title {
     display: flex;
     align-items: center;
-    padding: 4rem 0;
-    position: relative;
-    
-    /* This is the new background. 
-      It's an SVG data URL that defines a repeating pattern
-      of various icons (cube, branch, hexagon).
-    */
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cpattern id='devops-grid' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cg fill='none' stroke='%231a2b4a' stroke-width='1'%3E%3C!-- Cube (Container) --%3E%3Crect x='10' y='10' width='15' height='15' /%3E%3Crect x='12' y='12' width='15' height='15' /%3E%3C!-- Branch (Git) --%3E%3Cpath d='M 20 80 l 10 -10' /%3E%3Ccircle cx='20' cy='80' r='3'/%3E%3Ccircle cx='30' cy='70' r='3'/%3E%3C!-- Hexagon (K8s/Module) --%3E%3Cpath d='M 50 50 l 10 0 l 5 8.66 l -5 8.66 l -10 0 l -5 -8.66 z' /%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23devops-grid)'%3E%3C/rect%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-position: center;
+    gap: 1rem;
+    font-size: 1.75rem;
+    color: #f8fafc;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider */
 }
 
-.hero .hero-intro {
-    color: var(--accent-color);
-    font-size: 1rem;
-    display: block;
-    margin-bottom: 1rem;
+.section-icon {
+    width: 28px;
+    height: 28px;
+    color: #38bdf8;
 }
 
-.hero .hero-title {
-    font-size: 3rem;
+/* --- Panel Content: Experience --- */
+.experience-item {
+    margin-bottom: 1.5rem;
+}
+.experience-item:last-child {
+    margin-bottom: 0;
 }
 
-.hero .hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-color);
-    max-width: 700px;
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
-.hero .hero-subtitle strong {
-    color: var(--accent-color);
+
+.experience-header h3 {
+    font-size: 1.1rem;
+    color: #f1f5f9;
+    font-weight: 600;
+}
+.experience-header span {
+    font-size: 1.1rem;
+    color: #94a3b8;
     font-weight: 500;
 }
 
-/* --- Content Sections --- */
-main.container {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+.experience-date {
+    display: block;
+    font-size: 0.9rem;
+    color: #38bdf8;
+    margin-bottom: 1rem;
+    font-weight: 500;
 }
 
-section {
-    margin-bottom: 5rem;
+.experience-duties {
+    list-style: none;
+    padding-left: 0;
+    color: #94a3b8;
 }
 
-h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--heading-color);
+.experience-duties li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
 }
 
-/* --- Skills Section --- */
+/* The blue bullet point */
+.experience-duties li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+/* --- Panel Content: Skills --- */
+.skill-category {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin: 1.5rem 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.skills-grid:first-of-type .skill-category {
+    margin-top: 0;
+}
+
 .skills-grid {
     display: flex;
     flex-wrap: wrap;
@@ -168,119 +288,157 @@ h2 {
 }
 
 .skill-tag {
-    background-color: var(--accent-color-dim);
-    color: var(--accent-color);
+    background: rgba(56, 189, 248, 0.1);
+    color: #7dd3fc;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.9rem;
     font-weight: 500;
+    border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
-/* --- Projects Section --- */
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+/* --- Panel Content: Projects --- */
+.project-item {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+}
+.project-item:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
-.project-card {
-    background-color: var(--card-color);
-    border: 1px solid #193157;
-    border-radius: 8px;
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.project-item h3 {
+    font-size: 1.1rem;
+    color: #f1f5f9;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
-
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.project-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.project-item p {
+    font-size: 0.95rem;
     margin-bottom: 1rem;
 }
-
-.project-icon {
-    width: 24px;
-    height: 24px;
-    color: var(--accent-color);
+.project-item .skills-grid {
+    margin-bottom: 1.5rem;
 }
-
-.project-card h3 {
-    font-size: 1.25rem;
-    color: var(--heading-color);
-    margin: 0;
-}
-
-.project-card p {
-    font-size: 0.95rem;
-    flex-grow: 1;
-}
-
 .project-link {
     font-weight: 600;
+    font-size: 0.9rem;
+}
+.project-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Panel Content: Certifications --- */
+.cert-list {
+    list-style: none;
+    padding-left: 0;
+}
+.cert-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #94a3b8;
+}
+/* The blue checkmark */
+.cert-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #38bdf8;
+    font-weight: 700;
 }
 
 /* --- Footer --- */
 .footer {
+    position: relative;
+    z-index: 10;
     text-align: center;
-    padding: 4rem 1rem;
-    border-top: 1px solid #112240;
+    padding: 2rem 1rem 3rem 1rem;
+    color: #64748b; /* Muted color for the footer text */
+    font-size: 0.9rem;
 }
-
-.footer .social-links {
-    margin: 2rem 0;
+.footer-title {
+    font-size: 1.75rem;
+    color: #f8fafc;
+    margin-bottom: 1rem;
 }
-
-.social-link {
-    color: var(--text-color);
-    border: 1px solid var(--text-color);
-    padding: 0.75rem 1.5rem;
-    margin: 0 0.5rem;
-    border-radius: 4px;
+.footer-outro {
+    max-width: 500px;
+    margin: 0 auto 1.5rem auto;
+    color: #94a3b8;
+    font-size: 1rem;
+}
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+.social-icon {
+    color: #94a3b8;
     transition: all 0.3s ease;
 }
-.social-link:hover {
-    background-color: var(--accent-color-dim);
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-    text-decoration: none;
+.social-icon:hover {
+    color: #fff;
+    transform: translateY(-3px) scale(1.1); /* Little hover effect */
+}
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+}
+.copyright {
+    font-size: 0.85rem;
 }
 
-.footer .copyright {
-    font-size: 0.875rem;
-    color: #8892b0;
-}
-
-/* --- Scroll Animation --- */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- Responsive Design --- */
+/* --- Responsive styles for mobile --- */
 @media (max-width: 768px) {
-    .project-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
+    body {
+        overflow-x: hidden; /* Just in case */
     }
     
-    .navbar .nav-links {
-        display: none; /* Simplifies mobile view */
+    .navbar-container {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    .navbar-glass {
+        position: relative; /* Un-stick navbar on mobile, make it part of the flow */
+        top: 0;
+        left: 0;
+        transform: none;
+        width: 100%;
+        border-radius: 0; /* Full width */
+    }
+    .page-content {
+        padding-top: 2rem; /* Less top padding since navbar isn't fixed */
+        gap: 1.5rem;
+    }
+    .glass-panel {
+        padding: 1.5rem;
+    }
+    .hero-panel h1 {
+        font-size: 2.2rem;
+    }
+    .hero-panel .hero-subtitle {
+        font-size: 1rem;
+    }
+    .section-title {
+        font-size: 1.5rem;
+    }
+    .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Hide the distracting aurora on mobile */
+    .background-aurora {
+        display: none;
+    }
+    body {
+        background: #0f172a; /* Use the solid fallback color */
     }
 }
