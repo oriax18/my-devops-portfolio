@@ -52,3 +52,7 @@ output "website_endpoint" {
 output "storage_account_name" {
   value = azurerm_storage_account.site_storage.name
 }
+output "storage_account_primary_key" {
+  value     = azurerm_storage_account.site_storage.primary_access_key
+  sensitive = true
+}

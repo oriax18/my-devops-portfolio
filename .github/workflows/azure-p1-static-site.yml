@@ -40,20 +40,23 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve
 
-    # 6. Get the Storage Account Name
-    - name: Get Storage Account Name
+    # 6. Get Terraform Outputs
+    - name: Get Terraform Outputs
       id: tf-outputs
       run: |
         echo "storage_name=$(terraform output -raw storage_account_name)" >> $GITHUB_OUTPUT
-    
+        echo "storage_key=$(terraform output -raw -no-color storage_account_primary_key)" >> $GITHUB_OUTPUT
+
     # 7. Upload Website Files to the $web container
     - name: Upload website files
       uses: azure/CLI@v1
+      env:
+        # Pass the key directly as an environment variable
+        AZURE_STORAGE_KEY: ${{ steps.tf-outputs.outputs.storage_key }}
       with:
         inlineScript: |
           az storage blob upload-batch \
             --account-name ${{ steps.tf-outputs.outputs.storage_name }} \
             --source "azure/project-1-static-site/src" \
             --destination '$web' \
-            --overwrite \
-            --auth-mode key
+            --overwrite
