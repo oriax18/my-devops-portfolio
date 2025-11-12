@@ -56,4 +56,4 @@ jobs:
             --source "azure/project-1-static-site/src" \
             --destination '$web' \
             --overwrite \
-            --auth-mode login
+            --auth-mode key
